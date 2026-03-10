@@ -26,7 +26,7 @@
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(180,0,90,0.12);
       max-width: 680px;
-      padding: 28px 28px 14px;
+      padding: 28px 28px 22px;
       position: relative;
       overflow: hidden;
     }
@@ -37,27 +37,19 @@
       color: var(--primary);
     }
     .name {
-      color: var(--primary);
       background: linear-gradient(90deg, var(--primary), var(--accent));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       font-weight: 800;
     }
-    p { margin: 8px 0 18px; font-size: clamp(15px, 2.4vw, 18px); }
+    p { margin: 8px 0 12px; font-size: clamp(15px, 2.4vw, 18px); }
     .tag {
       display:inline-block; padding: 8px 14px; border-radius: 999px;
       background: #ffe7f2; color: var(--primary); font-weight: 600; margin-bottom: 14px;
     }
-    .footer {
-      font-size: 13px; color: #6b5566; margin-top: 18px;
-    }
-    .btn {
-      display:inline-block; margin-top:8px; padding: 10px 16px; border-radius: 12px;
-      background: var(--primary); color: #fff; text-decoration: none; font-weight: 700;
-      box-shadow: 0 6px 16px rgba(180,0,90,0.25);
-    }
-    /* simple confetti */
+    .footer { font-size: 13px; color: #6b5566; margin-top: 12px; }
+    /* confetti */
     .confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
     .c { position:absolute; width:10px; height:16px; opacity:.9; will-change: transform; }
   </style>
@@ -65,39 +57,20 @@
 <body>
   <div class="card">
     <div class="tag">Happy International Women’s Day 🌸</div>
-    <h1><span class="greet">Happy Women’s Day</span> <span class="name"></span>!</h1>
+    <h1>Happy Women’s Day <span class="name"></span>!</h1>
     <p>Wishing you strength, joy, and success—today and every day. Thanks for inspiring the team! ✨</p>
-    <a class="btn" id="share" href="#">Copy your personalized link</a>
-    <div class="footer">Tip: Add <code>?name=YourName</code> to the URL for a personalized greeting.</div>
+    <div class="footer">Made with appreciation 💖</div>
   </div>
   <div class="confetti" id="confetti"></div>
 
   <script>
-    // read ?name= from URL
-    const params = new URLSearchParams(location.search);
-    const rawName = (params.get('name') || '').trim();
-    const name = rawName ? decodeURIComponent(rawName) : '';
-    const nameEl = document.querySelector('.name');
-    nameEl.textContent = name || '💐';
-    document.title = name ? `Happy Women’s Day, ${name}!` : 'Happy Women’s Day';
+    // 👉 Set the name here (no URL parameter needed)
+    const NAME = 'Anjali';  // <-- Change this to your colleague's name
 
-    // share button copies link with current name (or asks for one)
-    const btn = document.getElementById('share');
-    btn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      let current = name || prompt('Enter name to personalize:') || '';
-      current = current.trim();
-      const url = `${location.origin}${location.pathname}?name=${encodeURIComponent(current)}`;
-      try {
-        await navigator.clipboard.writeText(url);
-        btn.textContent = 'Link copied! ✅';
-        setTimeout(() => btn.textContent = 'Copy your personalized link', 1800);
-      } catch {
-        window.alert(url);
-      }
-    });
+    document.querySelector('.name').textContent = NAME;
+    document.title = `Happy Women’s Day, ${NAME}!`;
 
-    // simple confetti animation
+    // simple confetti
     const colors = ['#b4005a','#ff5ca8','#ffccde','#f8a1c4','#8a2c5b','#ffd1e6'];
     const confetti = document.getElementById('confetti');
     const pieces = Math.min(120, Math.floor(window.innerWidth / 8));
@@ -109,13 +82,17 @@
       el.style.transform = `translateY(${-(Math.random()*100+20)}vh) rotate(${Math.random()*360}deg)`;
       confetti.appendChild(el);
       const duration = 4 + Math.random() * 4;
-      const delay = Math.random() * 2;
-      el.animate([
-        { transform: `translateY(-110vh) rotate(0deg)` },
-        { transform: `translateY(110vh) rotate(${720 + Math.random()*360}deg)` }
-      ], { duration: duration*1000, delay: delay*1000, iterations: 1, easing: 'ease-in' });
+      const delay = Math.random() * 1.5;
+      el.animate(
+        [
+          { transform: `translateY(-110vh) rotate(0deg)` },
+          { transform: `translateY(110vh) rotate(${720 + Math.random()*360}deg)` }
+        ],
+        { duration: duration*1000, delay: delay*1000, iterations: 1, easing: 'ease-in' }
+      );
       setTimeout(() => el.remove(), (duration+delay)*1000 + 100);
     }
   </script>
 </body>
 </html>
+``
